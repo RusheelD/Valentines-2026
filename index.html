@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Will You Be My Valentine? ❤️</title>
+    <title>For Shreeja ❤️</title>
     <style>
         * {
             margin: 0;
@@ -13,11 +13,61 @@
 
         body {
             font-family: 'Georgia', serif;
-            background: linear-gradient(135deg, #ff6b9d 0%, #ffc3d5 100%);
+            background: linear-gradient(135deg, #001f3f 0%, #000814 50%, #1a0000 100%);
             min-height: 100vh;
             padding: 20px;
             overflow-x: hidden;
+            position: relative;
         }
+
+        /* Background decorative elements */
+        .bg-decoration {
+            position: fixed;
+            opacity: 0.1;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .uttt-grid {
+            top: 10%;
+            right: 5%;
+            width: 200px;
+            height: 200px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .uttt-cell {
+            background: rgba(255, 0, 0, 0.3);
+            border: 2px solid rgba(0, 31, 63, 0.5);
+        }
+
+        .minecraft-block {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #8B4513 0%, #654321 100%);
+            border: 3px solid #000;
+            box-shadow: inset 4px 4px 0 rgba(139, 69, 19, 0.5);
+        }
+
+        .instagram-quiz {
+            width: 150px;
+            height: 100px;
+            background: linear-gradient(135deg, #833AB4 0%, #C13584 50%, #E1306C 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.8em;
+        }
+
+        #minecraft1 { top: 60%; left: 10%; }
+        #minecraft2 { top: 30%; right: 15%; }
+        #minecraft3 { bottom: 20%; left: 5%; }
+        #instaquiz1 { top: 20%; left: 8%; }
+        #instaquiz2 { bottom: 30%; right: 10%; }
 
         .section {
             min-height: 100vh;
@@ -28,6 +78,8 @@
             transform: translateY(50px);
             transition: all 1s ease-out;
             padding: 40px 20px;
+            position: relative;
+            z-index: 1;
         }
 
         .section.visible {
@@ -41,25 +93,32 @@
             padding: 50px;
             max-width: 700px;
             width: 100%;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 20px 60px rgba(255, 0, 0, 0.3), 0 0 30px rgba(0, 31, 63, 0.4);
             text-align: center;
+            border: 2px solid rgba(0, 31, 63, 0.2);
         }
 
         h1 {
-            color: #d63384;
+            color: #001f3f;
             font-size: 2.5em;
             margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            text-shadow: 2px 2px 4px rgba(255, 0, 0, 0.3);
         }
 
         h2 {
-            color: #e91e63;
+            color: rgb(255, 0, 0);
             font-size: 2em;
             margin-bottom: 20px;
         }
 
+        h3 {
+            color: #001f3f;
+            font-size: 1.5em;
+            margin: 20px 0;
+        }
+
         p {
-            color: #555;
+            color: #333;
             font-size: 1.3em;
             line-height: 1.8;
             margin: 20px 0;
@@ -67,7 +126,7 @@
 
         .heart {
             font-size: 4em;
-            color: #e91e63;
+            color: rgb(255, 0, 0);
             animation: heartbeat 1.5s infinite;
             display: inline-block;
             margin: 20px 0;
@@ -85,6 +144,46 @@
             }
         }
 
+        .chocolate-box {
+            width: 200px;
+            height: 150px;
+            background: linear-gradient(135deg, #4a2511 0%, #2d1508 100%);
+            border-radius: 10px;
+            margin: 20px auto;
+            display: flex;
+            flex-wrap: wrap;
+            padding: 15px;
+            gap: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 3px solid #FFD700;
+        }
+
+        .chocolate {
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, #3d1f0f 0%, #2a1508 100%);
+            border-radius: 5px;
+            box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .cake {
+            font-size: 5em;
+            margin: 20px 0;
+            filter: drop-shadow(0 5px 15px rgba(255, 0, 0, 0.3));
+        }
+
+        .chips-bag {
+            font-size: 3em;
+            margin: 10px;
+            display: inline-block;
+            animation: wiggle 2s infinite;
+        }
+
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+        }
+
         .floating-hearts {
             position: fixed;
             width: 100%;
@@ -99,7 +198,7 @@
             position: absolute;
             font-size: 2em;
             animation: float-up 8s infinite;
-            opacity: 0.6;
+            opacity: 0.4;
         }
 
         @keyframes float-up {
@@ -108,10 +207,10 @@
                 opacity: 0;
             }
             10% {
-                opacity: 0.6;
+                opacity: 0.4;
             }
             90% {
-                opacity: 0.6;
+                opacity: 0.4;
             }
             100% {
                 transform: translateY(-100vh) rotate(360deg);
@@ -120,7 +219,7 @@
         }
 
         .btn {
-            background: linear-gradient(135deg, #e91e63, #d63384);
+            background: linear-gradient(135deg, rgb(255, 0, 0), #cc0000);
             color: white;
             border: none;
             padding: 18px 45px;
@@ -128,14 +227,14 @@
             border-radius: 50px;
             cursor: pointer;
             margin-top: 30px;
-            box-shadow: 0 10px 30px rgba(233, 30, 99, 0.4);
+            box-shadow: 0 10px 30px rgba(255, 0, 0, 0.4);
             transition: all 0.3s ease;
             font-family: 'Georgia', serif;
         }
 
         .btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(233, 30, 99, 0.6);
+            box-shadow: 0 15px 40px rgba(255, 0, 0, 0.6);
         }
 
         .btn:active {
@@ -147,15 +246,38 @@
             width: 100%;
             max-width: 400px;
             height: 300px;
-            background: linear-gradient(135deg, #ffc3d5 0%, #ffb3c9 100%);
+            background: linear-gradient(135deg, rgba(0, 31, 63, 0.2) 0%, rgba(255, 0, 0, 0.2) 100%);
             border-radius: 15px;
             margin: 30px auto;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #d63384;
+            color: #001f3f;
             font-size: 1.1em;
-            border: 3px dashed #e91e63;
+            border: 3px dashed rgb(255, 0, 0);
+        }
+
+        .photo-placeholder-small {
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(135deg, rgba(0, 31, 63, 0.15) 0%, rgba(255, 0, 0, 0.15) 100%);
+            border-radius: 50%;
+            display: inline-block;
+            margin: 10px;
+            border: 2px dashed rgba(255, 0, 0, 0.5);
+        }
+
+        .photo-banner {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, rgba(0, 31, 63, 0.3) 0%, rgba(255, 0, 0, 0.2) 100%);
+            border-radius: 15px;
+            margin: 20px 0;
+            border: 2px dashed rgba(255, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #001f3f;
         }
 
         .photo-grid {
@@ -176,11 +298,11 @@
         }
 
         .reason-item {
-            background: rgba(255, 195, 213, 0.3);
+            background: rgba(0, 31, 63, 0.1);
             padding: 15px 20px;
             margin: 15px 0;
             border-radius: 10px;
-            border-left: 4px solid #e91e63;
+            border-left: 4px solid rgb(255, 0, 0);
             opacity: 0;
             transform: translateX(-30px);
             animation: slideIn 0.5s forwards;
@@ -191,6 +313,8 @@
         .reason-item:nth-child(3) { animation-delay: 0.6s; }
         .reason-item:nth-child(4) { animation-delay: 0.8s; }
         .reason-item:nth-child(5) { animation-delay: 1s; }
+        .reason-item:nth-child(6) { animation-delay: 1.2s; }
+        .reason-item:nth-child(7) { animation-delay: 1.4s; }
 
         @keyframes slideIn {
             to {
@@ -201,10 +325,11 @@
 
         #finalQuestion {
             font-size: 3em;
-            color: #e91e63;
+            color: rgb(255, 0, 0);
             font-weight: bold;
             margin: 30px 0;
             animation: pulse 2s infinite;
+            text-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
         }
 
         @keyframes pulse {
@@ -229,9 +354,11 @@
         }
 
         #noBtn {
-            background: linear-gradient(135deg, #999, #777);
+            background: linear-gradient(135deg, #444, #222);
             font-size: 1.2em;
             padding: 15px 40px;
+            position: fixed;
+            transition: all 0.3s ease;
         }
 
         .celebration {
@@ -262,10 +389,11 @@
             bottom: 30px;
             left: 50%;
             transform: translateX(-50%);
-            color: white;
+            color: rgba(255, 255, 255, 0.9);
             font-size: 1em;
             animation: bounce 2s infinite;
-            opacity: 0.8;
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+            z-index: 100;
         }
 
         @keyframes bounce {
@@ -282,25 +410,47 @@
     <!-- Floating hearts background -->
     <div class="floating-hearts" id="floatingHearts"></div>
 
+    <!-- Background decorations -->
+    <div class="bg-decoration uttt-grid" style="top: 10%; right: 5%;">
+        <div class="uttt-cell"></div>
+        <div class="uttt-cell"></div>
+        <div class="uttt-cell"></div>
+        <div class="uttt-cell"></div>
+        <div class="uttt-cell"></div>
+        <div class="uttt-cell"></div>
+        <div class="uttt-cell"></div>
+        <div class="uttt-cell"></div>
+        <div class="uttt-cell"></div>
+    </div>
+    <div class="bg-decoration minecraft-block" id="minecraft1"></div>
+    <div class="bg-decoration minecraft-block" id="minecraft2"></div>
+    <div class="bg-decoration minecraft-block" id="minecraft3"></div>
+    <div class="bg-decoration instagram-quiz" id="instaquiz1">📊💕</div>
+    <div class="bg-decoration instagram-quiz" id="instaquiz2">❓💭</div>
+
     <!-- Section 1: Welcome -->
     <div class="section visible" id="section1">
         <div class="card">
-            <h1>Hey Beautiful ❤️</h1>
+            <h1>Hey Bujji ❤️</h1>
             <div class="heart">💕</div>
             <p>I have something special to share with you...</p>
-            <p>Take a journey with me through all the reasons why you make my heart smile</p>
+            <p>Take a journey with me through all the reasons why you mean the world to me</p>
             <button class="btn" onclick="showSection('section2')">Let's Begin ➜</button>
         </div>
     </div>
 
-    <!-- Section 2: Photo Memory 1 -->
+    <!-- Section 2: First Memory -->
     <div class="section" id="section2">
         <div class="card">
-            <h2>Remember This? 📸</h2>
-            <!-- PHOTO PLACEHOLDER 1: Add a memorable photo here -->
-            <div class="photo-placeholder">Your photo will go here</div>
-            <p>Every moment with you feels like magic...</p>
-            <p>From the first time we met, I knew you were someone special</p>
+            <h2>Remember When We First Met? 🎮</h2>
+            <!-- PHOTO PLACEHOLDER 1: Add a photo from when you first met -->
+            <div class="photo-placeholder">Photo from when we first met</div>
+            <p>From our first Ultimate Tic-Tac-Toe games...</p>
+            <p>I knew there was something special about you, Nana</p>
+            <div style="margin: 20px 0;">
+                <div class="photo-placeholder-small"></div>
+                <div class="photo-placeholder-small"></div>
+            </div>
             <button class="btn" onclick="showSection('section3')">Continue ➜</button>
         </div>
     </div>
@@ -308,7 +458,7 @@
     <!-- Section 3: Things I Love About You -->
     <div class="section" id="section3">
         <div class="card">
-            <h2>Things I Love About You 💖</h2>
+            <h2>Things I Love About You, Shreeja 💖</h2>
             <div class="reason-list">
                 <div class="reason-item">
                     <strong>Your smile</strong> - It lights up my entire world
@@ -320,48 +470,139 @@
                     <strong>Your kindness</strong> - You have the biggest heart
                 </div>
                 <div class="reason-item">
-                    <strong>Your strength</strong> - You inspire me every single day
+                    <strong>Your intelligence</strong> - You inspire me to be better
                 </div>
                 <div class="reason-item">
-                    <strong>Your YOU-ness</strong> - Everything that makes you uniquely you
+                    <strong>How you love chocolate</strong> - Your excitement is adorable 🍫
+                </div>
+                <div class="reason-item">
+                    <strong>Our late night chip runs</strong> - The best adventures 🍟
+                </div>
+                <div class="reason-item">
+                    <strong>Everything that makes you YOU</strong> - Perfectly imperfect
                 </div>
             </div>
             <button class="btn" onclick="showSection('section4')">There's More ➜</button>
         </div>
     </div>
 
-    <!-- Section 4: Our Memories -->
+    <!-- Section 4: Chocolate & Chips -->
     <div class="section" id="section4">
         <div class="card">
-            <h2>Our Beautiful Memories 🌟</h2>
-            <!-- PHOTO PLACEHOLDER 2-4: Add a grid of photos here -->
+            <h2>Your Favorite Things 🍫</h2>
+            <div class="chocolate-box">
+                <div class="chocolate"></div>
+                <div class="chocolate"></div>
+                <div class="chocolate"></div>
+                <div class="chocolate"></div>
+                <div class="chocolate"></div>
+                <div class="chocolate"></div>
+                <div class="chocolate"></div>
+                <div class="chocolate"></div>
+                <div class="chocolate"></div>
+            </div>
+            <div class="chips-bag">🍟</div>
+            <div class="chips-bag">🥔</div>
+            <div class="chips-bag">🍿</div>
+            <p>I love how your eyes light up when you see chocolate...</p>
+            <p>And how we can demolish a bag of chips together in minutes!</p>
+            <!-- PHOTO PLACEHOLDER 2: Add a photo of her with chocolate or snacks -->
+            <div class="photo-placeholder">Photo with chocolate/chips</div>
+            <button class="btn" onclick="showSection('section5')">Keep Going ➜</button>
+        </div>
+    </div>
+
+    <!-- Section 5: Our Gaming Adventures -->
+    <div class="section" id="section5">
+        <div class="card">
+            <h2>Our Adventures Together 🎮</h2>
+            <h3>Ultimate Tic-Tac-Toe Days</h3>
+            <!-- PHOTO PLACEHOLDER 3: Add photos from UTTT days -->
+            <div class="photo-banner">Photos from our UTTT battles</div>
+            <p>Remember all those intense matches? You always kept me on my toes!</p>
+            
+            <h3 style="margin-top: 40px;">Instagram Quiz Nights 📱</h3>
+            <!-- PHOTO PLACEHOLDER 4: Add photos from quiz times -->
+            <div class="photo-banner">Our quiz screenshots</div>
+            <p>From UTTT to Instagram quizzes - we always find ways to have fun together</p>
+            <button class="btn" onclick="showSection('section6')">Continue ➜</button>
+        </div>
+    </div>
+
+    <!-- Section 6: Minecraft Adventures -->
+    <div class="section" id="section6">
+        <div class="card">
+            <h2>Building Our World 🎮⛏️</h2>
+            <p style="font-size: 5em; margin: 20px 0;">🟫🟩🟦</p>
+            <p>And now we're building worlds together in Minecraft...</p>
+            <p>Just like we're building something special in real life</p>
+            <!-- PHOTO PLACEHOLDER 5: Add Minecraft screenshots or photos -->
+            <div class="photo-placeholder">Minecraft memories</div>
+            <div style="margin: 20px 0;">
+                <div class="photo-placeholder-small"></div>
+                <div class="photo-placeholder-small"></div>
+                <div class="photo-placeholder-small"></div>
+            </div>
+            <button class="btn" onclick="showSection('section7')">Almost There ➜</button>
+        </div>
+    </div>
+
+    <!-- Section 7: Our Beautiful Memories -->
+    <div class="section" id="section7">
+        <div class="card">
+            <h2>Every Moment With You 🌟</h2>
+            <!-- PHOTO PLACEHOLDER 6-9: Add a collection of your favorite photos -->
             <div class="photo-grid">
                 <div class="photo-placeholder">Photo 1</div>
                 <div class="photo-placeholder">Photo 2</div>
                 <div class="photo-placeholder">Photo 3</div>
             </div>
             <p>Every memory we've made is treasured in my heart</p>
-            <p>And I can't wait to create so many more with you...</p>
-            <button class="btn" onclick="showSection('section5')">Almost There ➜</button>
+            <p>Every laugh, every adventure, every quiet moment together...</p>
+            <button class="btn" onclick="showSection('section8')">One More Thing ➜</button>
         </div>
     </div>
 
-    <!-- Section 5: The Big Question -->
-    <div class="section" id="section5">
+    <!-- Section 8: Sweet Treats -->
+    <div class="section" id="section8">
+        <div class="card">
+            <h2>You're Sweeter Than... 🍰</h2>
+            <div class="cake">🎂</div>
+            <div class="chocolate-box">
+                <div class="chocolate"></div>
+                <div class="chocolate"></div>
+                <div class="chocolate"></div>
+                <div class="chocolate"></div>
+                <div class="chocolate"></div>
+                <div class="chocolate"></div>
+                <div class="chocolate"></div>
+                <div class="chocolate"></div>
+                <div class="chocolate"></div>
+            </div>
+            <p>...any chocolate, any cake, any dessert in the world!</p>
+            <p>You're the sweetest thing in my life, Bujji</p>
+            <!-- PHOTO PLACEHOLDER 10: Add a sweet photo together -->
+            <div class="photo-placeholder">A sweet moment together</div>
+            <button class="btn" onclick="showSection('section9')">The Big Question ➜</button>
+        </div>
+    </div>
+
+    <!-- Section 9: The Big Question -->
+    <div class="section" id="section9">
         <div class="card">
             <div class="heart">❤️</div>
             <div id="finalQuestion">
-                Will You Be My Valentine?
+                Will You Be My Valentine, Nana?
             </div>
             <div class="heart">❤️</div>
-            <!-- PHOTO PLACEHOLDER 5: Add a special photo of you two here -->
-            <div class="photo-placeholder">A special photo of us</div>
+            <!-- PHOTO PLACEHOLDER 11: Add your most special photo together -->
+            <div class="photo-placeholder">Our most special photo</div>
             <div class="response-buttons">
                 <button class="btn" id="yesBtn" onclick="handleYes()">YES! 💕</button>
                 <button class="btn" id="noBtn" onclick="handleNo()">No</button>
             </div>
             <div class="celebration" id="celebration">
-                🎉 💖 🎊 💕 ✨
+                🎉 💖 🎊 💕 ✨ 🍫 🎂
             </div>
             <p id="responseMessage"></p>
         </div>
@@ -370,13 +611,14 @@
     <div class="scroll-hint" id="scrollHint">Scroll down or click to continue ↓</div>
 
     <script>
-        // Create floating hearts
+        // Create floating hearts with red and navy theme
         function createFloatingHearts() {
             const container = document.getElementById('floatingHearts');
-            for (let i = 0; i < 15; i++) {
+            const hearts = ['❤️', '💕', '💖', '💗', '💓', '💙', '🖤'];
+            for (let i = 0; i < 20; i++) {
                 const heart = document.createElement('div');
                 heart.className = 'floating-heart';
-                heart.innerHTML = ['❤️', '💕', '💖', '💗', '💓'][Math.floor(Math.random() * 5)];
+                heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
                 heart.style.left = Math.random() * 100 + '%';
                 heart.style.animationDelay = Math.random() * 8 + 's';
                 heart.style.fontSize = (Math.random() * 1.5 + 1) + 'em';
@@ -399,7 +641,7 @@
         // Update scroll hint visibility
         function updateScrollHint(currentSection) {
             const scrollHint = document.getElementById('scrollHint');
-            if (currentSection === 'section5') {
+            if (currentSection === 'section9') {
                 scrollHint.style.display = 'none';
             }
         }
@@ -422,47 +664,98 @@
             const noBtn = document.getElementById('noBtn');
             
             celebration.classList.add('show');
-            message.innerHTML = '<h2 style="color: #e91e63; margin-top: 30px;">You just made me the happiest person! 💕</h2><p>I love you so much! Happy Valentine\'s Day, my love! 💖</p>';
+            message.innerHTML = '<h2 style="color: rgb(255, 0, 0); margin-top: 30px;">You just made me the happiest person! 💕</h2><p>I love you so much, Bujji! Happy Valentine\'s Day! 💖🍫</p>';
             noBtn.style.display = 'none';
             
+            // Remove mouse tracking
+            document.removeEventListener('mousemove', trackMouse);
+            
             // Create confetti effect
-            for (let i = 0; i < 50; i++) {
-                createConfetti();
+            for (let i = 0; i < 100; i++) {
+                setTimeout(() => createConfetti(), i * 30);
             }
         }
 
-        // Handle No response (make button move away)
+        // Mouse tracking for No button
         let noClickCount = 0;
+        let buttonFleeing = false;
+        const noBtn = document.getElementById('noBtn');
+        
+        function trackMouse(e) {
+            if (!buttonFleeing || !noBtn) return;
+            
+            const btn = noBtn;
+            const btnRect = btn.getBoundingClientRect();
+            const btnCenterX = btnRect.left + btnRect.width / 2;
+            const btnCenterY = btnRect.top + btnRect.height / 2;
+            
+            const mouseX = e.clientX;
+            const mouseY = e.clientY;
+            
+            const distance = Math.sqrt(
+                Math.pow(mouseX - btnCenterX, 2) + 
+                Math.pow(mouseY - btnCenterY, 2)
+            );
+            
+            const fleeDistance = 150; // Distance at which button starts fleeing
+            
+            if (distance < fleeDistance) {
+                // Calculate flee direction (away from mouse)
+                const angle = Math.atan2(btnCenterY - mouseY, btnCenterX - mouseX);
+                const fleeSpeed = (fleeDistance - distance) / 3;
+                
+                let newX = btnCenterX + Math.cos(angle) * fleeSpeed;
+                let newY = btnCenterY + Math.sin(angle) * fleeSpeed;
+                
+                // Keep button within viewport
+                const margin = 100;
+                newX = Math.max(margin, Math.min(window.innerWidth - margin, newX));
+                newY = Math.max(margin, Math.min(window.innerHeight - margin, newY));
+                
+                btn.style.left = newX + 'px';
+                btn.style.top = newY + 'px';
+                btn.style.transform = 'translate(-50%, -50%)';
+            }
+        }
+
+        // Handle No response
         function handleNo() {
-            const noBtn = document.getElementById('noBtn');
-            const yesBtn = document.getElementById('yesBtn');
             noClickCount++;
             
             if (noClickCount === 1) {
-                noBtn.innerHTML = 'Are you sure?';
-                noBtn.style.position = 'relative';
-                noBtn.style.left = (Math.random() * 200 - 100) + 'px';
+                noBtn.innerHTML = 'Are you sure? 🥺';
+                buttonFleeing = true;
+                document.addEventListener('mousemove', trackMouse);
+                // Set initial position
+                const rect = noBtn.getBoundingClientRect();
+                noBtn.style.left = (rect.left + rect.width / 2) + 'px';
+                noBtn.style.top = (rect.top + rect.height / 2) + 'px';
             } else if (noClickCount === 2) {
-                noBtn.innerHTML = 'Really?? 🥺';
-                noBtn.style.left = (Math.random() * 200 - 100) + 'px';
-                noBtn.style.top = (Math.random() * 100 - 50) + 'px';
+                noBtn.innerHTML = 'Really?? 🥺💔';
+                // Make it faster
+                noBtn.style.transition = 'all 0.15s ease';
             } else if (noClickCount === 3) {
-                noBtn.innerHTML = 'Please? 💔';
-                noBtn.style.left = (Math.random() * 300 - 150) + 'px';
-                noBtn.style.top = (Math.random() * 100 - 50) + 'px';
-                yesBtn.style.transform = 'scale(1.2)';
+                noBtn.innerHTML = 'Please, Nana? 💔';
+                // Even faster
+                noBtn.style.transition = 'all 0.1s ease';
+                document.getElementById('yesBtn').style.transform = 'scale(1.2)';
+            } else if (noClickCount === 4) {
+                noBtn.innerHTML = 'Bujji... 🥹';
+                // Super fast now
+                noBtn.style.transition = 'all 0.05s ease';
             } else {
                 noBtn.style.display = 'none';
-                document.getElementById('responseMessage').innerHTML = '<p style="color: #e91e63; font-size: 1.2em;">The "No" button has given up... There\'s only one choice left! 😊💕</p>';
-                yesBtn.style.transform = 'scale(1.3)';
-                yesBtn.classList.add('pulse');
+                document.removeEventListener('mousemove', trackMouse);
+                document.getElementById('responseMessage').innerHTML = '<p style="color: rgb(255, 0, 0); font-size: 1.2em;">The "No" button has given up trying to escape... There\'s only one choice left, Shreeja! 😊💕</p>';
+                document.getElementById('yesBtn').style.transform = 'scale(1.3)';
             }
         }
 
         // Confetti effect
         function createConfetti() {
             const confetti = document.createElement('div');
-            confetti.innerHTML = ['❤️', '💕', '💖', '🎉', '✨', '💗'][Math.floor(Math.random() * 6)];
+            const symbols = ['❤️', '💕', '💖', '🎉', '✨', '💗', '🍫', '🎂', '💙', '🖤'];
+            confetti.innerHTML = symbols[Math.floor(Math.random() * symbols.length)];
             confetti.style.position = 'fixed';
             confetti.style.left = Math.random() * 100 + 'vw';
             confetti.style.top = '-50px';
@@ -472,10 +765,12 @@
             document.body.appendChild(confetti);
             
             let pos = -50;
+            let rotation = 0;
             const interval = setInterval(() => {
                 pos += 5;
+                rotation += 10;
                 confetti.style.top = pos + 'px';
-                confetti.style.transform = `rotate(${pos * 2}deg)`;
+                confetti.style.transform = `rotate(${rotation}deg)`;
                 if (pos > window.innerHeight) {
                     clearInterval(interval);
                     confetti.remove();
