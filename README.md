@@ -48,9 +48,9 @@ The page currently has placeholder sections for your photos. To add your photos:
 
 1. Add your image files to the repository (e.g., in an `images` folder)
 2. In `index.html`, replace the placeholder divs with `<img>` tags:
-   - **Section 2** (line ~246): Replace `<div class="photo-placeholder">` with your photo together
-   - **Section 3** (line ~258-261): Replace the 4 `<div class="memory-placeholder">` divs with your memory photos
-   - **Section 5** (line ~285): Replace `<div class="photo-placeholder">` with a special photo
+   - **Section 2**: Replace the `<div class="photo-placeholder">` with your photo together
+   - **Section 3**: Replace the 4 `<div class="memory-placeholder">` divs with your memory photos
+   - **Section 5**: Replace the `<div class="photo-placeholder">` with a special photo
 
 Example replacement:
 ```html
