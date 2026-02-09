@@ -14,10 +14,23 @@
         body {
             font-family: 'Georgia', serif;
             background: linear-gradient(135deg, #001f3f 0%, #000814 50%, #1a0000 100%);
+            background-attachment: fixed;
             min-height: 100vh;
             padding: 20px;
             overflow-x: hidden;
             position: relative;
+            /* Hide scrollbar */
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE and Edge */
+        }
+
+        #contentWrapper {
+            position: relative;
+            min-height: 100vh;
+        }
+
+        body::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
         }
 
         /* Background decorative elements */
@@ -71,18 +84,19 @@
 
         .section {
             min-height: 100vh;
-            display: flex;
+            display: none;
             justify-content: center;
             align-items: center;
             opacity: 0;
             transform: translateY(50px);
-            transition: all 1s ease-out;
+            transition: opacity 1s ease-out, transform 1s ease-out;
             padding: 40px 20px;
             position: relative;
             z-index: 1;
         }
 
         .section.visible {
+            display: flex;
             opacity: 1;
             transform: translateY(0);
         }
@@ -201,6 +215,18 @@
             opacity: 0.4;
         }
 
+        .floating-photo {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            animation: float-up 10s infinite;
+            opacity: 0.25;
+            object-fit: cover;
+            border: 2px solid rgba(255, 0, 0, 0.3);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
         @keyframes float-up {
             0% {
                 transform: translateY(100vh) rotate(0deg);
@@ -255,6 +281,49 @@
             color: #001f3f;
             font-size: 1.1em;
             border: 3px dashed rgb(255, 0, 0);
+        }
+
+        /* Actual photos */
+        .photo {
+            width: 100%;
+            max-width: 400px;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin: 30px auto;
+            display: block;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 3px solid rgba(255, 0, 0, 0.3);
+        }
+
+        .photo-small {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 50%;
+            display: inline-block;
+            margin: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border: 3px solid rgba(255, 0, 0, 0.4);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Preserve aspect ratio for certain photos */
+        .photo-aspect-ratio {
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+            max-height: 400px;
+            object-fit: contain;
+            border-radius: 15px;
+            margin: 30px auto;
+            display: block;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 3px solid rgba(255, 0, 0, 0.3);
+            background: rgba(0, 0, 0, 0.05);
         }
 
         .photo-placeholder-small {
@@ -357,8 +426,12 @@
             background: linear-gradient(135deg, #444, #222);
             font-size: 1.2em;
             padding: 15px 40px;
+        }
+
+        #noBtn.fleeing {
             position: fixed;
-            transition: all 0.3s ease;
+            z-index: 1000;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
         .celebration {
@@ -384,6 +457,118 @@
             }
         }
 
+        /* Game representations */
+        .uttt-game {
+            display: inline-grid;
+            grid-template-columns: repeat(3, 80px);
+            grid-template-rows: repeat(3, 80px);
+            gap: 8px;
+            margin: 20px auto;
+            padding: 15px;
+            background: rgba(0, 31, 63, 0.1);
+            border-radius: 10px;
+        }
+
+        .uttt-game .mini-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 2px;
+            background: rgba(255, 255, 255, 0.8);
+            border: 2px solid rgb(255, 0, 0);
+            padding: 4px;
+        }
+
+        .uttt-game .mini-cell {
+            background: rgba(0, 31, 63, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.5em;
+        }
+
+        .quiz-card {
+            background: linear-gradient(135deg, #833AB4 0%, #C13584 50%, #E1306C 100%);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px auto;
+            max-width: 400px;
+            color: white;
+            box-shadow: 0 10px 30px rgba(225, 48, 108, 0.4);
+        }
+
+        .quiz-options {
+            margin-top: 20px;
+        }
+
+        .quiz-option {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            perspective: 1000px;
+            min-height: 50px;
+        }
+
+        .quiz-option:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .quiz-flip-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .quiz-option.flipped .quiz-flip-container {
+            transform: rotateY(180deg);
+        }
+
+        .quiz-front, .quiz-back {
+            width: 100%;
+            backface-visibility: hidden;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .quiz-back {
+            transform: rotateY(180deg);
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .quiz-front {
+            position: relative;
+        }
+
+        .minecraft-scene {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 5px;
+            margin: 30px auto;
+            max-width: 400px;
+        }
+
+        .mc-block {
+            width: 50px;
+            height: 50px;
+            display: inline-block;
+            image-rendering: pixelated;
+        }
+
+        .mc-grass { background: linear-gradient(to bottom, #7cbd6b 0%, #7cbd6b 30%, #8b6f47 30%); border: 1px solid #5a9c4a; }
+        .mc-dirt { background: #8b6f47; border: 1px solid #6b5437; }
+        .mc-stone { background: #7a7a7a; border: 1px solid #5a5a5a; }
+        .mc-wood { background: #9c6f3f; border: 1px solid #7c5f2f; }
+        .mc-diamond { background: #5dc9e2; border: 1px solid #4da9c2; }
+
         .scroll-hint {
             position: fixed;
             bottom: 30px;
@@ -404,11 +589,232 @@
                 transform: translateX(-50%) translateY(-10px);
             }
         }
+
+        .reset-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: 2px solid rgba(255, 0, 0, 0.5);
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-family: 'Georgia', serif;
+            font-size: 0.9em;
+            z-index: 1000;
+            opacity: 0;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .reset-btn.visible {
+            opacity: 0.7;
+            pointer-events: all;
+        }
+
+        .reset-btn:hover {
+            opacity: 1;
+            background: rgba(255, 0, 0, 0.2);
+            transform: scale(1.05);
+        }
+
+        /* Responsive Design for Mobile */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .card {
+                padding: 30px 20px;
+                max-width: 100%;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            h2 {
+                font-size: 1.6em;
+            }
+
+            h3 {
+                font-size: 1.3em;
+            }
+
+            p {
+                font-size: 1.1em;
+                line-height: 1.6;
+            }
+
+            .heart {
+                font-size: 3em;
+            }
+
+            .cake {
+                font-size: 4em;
+            }
+
+            .chips-bag {
+                font-size: 2.5em;
+            }
+
+            .btn {
+                padding: 15px 35px;
+                font-size: 1.1em;
+            }
+
+            .photo-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+
+            .uttt-game {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 5px;
+            }
+
+            .mini-grid {
+                gap: 2px;
+            }
+
+            .mini-cell {
+                font-size: 0.7em;
+                padding: 3px;
+            }
+
+            .quiz-card {
+                padding: 20px 15px;
+            }
+
+            .quiz-options {
+                gap: 10px;
+            }
+
+            .quiz-option {
+                font-size: 0.9em;
+                padding: 12px;
+            }
+
+            .minecraft-scene {
+                grid-template-columns: repeat(6, 1fr);
+            }
+
+            .mc-block {
+                width: 40px;
+                height: 40px;
+            }
+
+            .reason-list {
+                gap: 12px;
+            }
+
+            .reason-item {
+                font-size: 1em;
+                padding: 12px;
+            }
+
+            #finalQuestion {
+                font-size: 2em;
+            }
+
+            /* Hide or reduce background decorations on mobile */
+            .bg-decoration {
+                opacity: 0.05;
+            }
+
+            .floating-photo {
+                width: 50px;
+                height: 50px;
+            }
+
+            .reset-btn {
+                top: 15px;
+                right: 15px;
+                font-size: 0.8em;
+                padding: 8px 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                padding: 25px 15px;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
+            h2 {
+                font-size: 1.4em;
+            }
+
+            p {
+                font-size: 1em;
+            }
+
+            .btn {
+                padding: 12px 30px;
+                font-size: 1em;
+            }
+
+            .chocolate-box {
+                width: 150px;
+                height: 120px;
+                padding: 10px;
+                gap: 5px;
+            }
+
+            .chocolate {
+                width: 25px;
+                height: 25px;
+            }
+
+            .photo-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .photo-small {
+                max-width: 120px;
+            }
+
+            .quiz-card h3 {
+                font-size: 1.2em;
+            }
+
+            .quiz-option {
+                font-size: 0.85em;
+                padding: 10px;
+            }
+
+            #finalQuestion {
+                font-size: 1.6em;
+            }
+
+            .response-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .response-buttons .btn {
+                width: 100%;
+                max-width: 200px;
+            }
+
+            /* Make background hearts smaller on very small screens */
+            .floating-heart {
+                font-size: 1.5em;
+            }
+        }
     </style>
 </head>
 <body>
     <!-- Floating hearts background -->
     <div class="floating-hearts" id="floatingHearts"></div>
+
+    <!-- Reset button -->
+    <button class="reset-btn" id="resetBtn" onclick="resetPage()" title="Press 'R' to reset">↻ Reset</button>
 
     <!-- Background decorations -->
     <div class="bg-decoration uttt-grid" style="top: 10%; right: 5%;">
@@ -428,6 +834,9 @@
     <div class="bg-decoration instagram-quiz" id="instaquiz1">📊💕</div>
     <div class="bg-decoration instagram-quiz" id="instaquiz2">❓💭</div>
 
+    <!-- Content Wrapper for height control -->
+    <div id="contentWrapper">
+
     <!-- Section 1: Welcome -->
     <div class="section visible" id="section1">
         <div class="card">
@@ -442,14 +851,14 @@
     <!-- Section 2: First Memory -->
     <div class="section" id="section2">
         <div class="card">
-            <h2>Remember When We First Met? 🎮</h2>
+            <h2>Remember When We Were Young?😊</h2>
             <!-- PHOTO PLACEHOLDER 1: Add a photo from when you first met -->
-            <div class="photo-placeholder">Photo from when we first met</div>
+            <img src="photos/Photo-Together-1.jpeg" alt="When we were young" class="photo">
             <p>From our first Ultimate Tic-Tac-Toe games...</p>
             <p>I knew there was something special about you, Nana</p>
             <div style="margin: 20px 0;">
-                <div class="photo-placeholder-small"></div>
-                <div class="photo-placeholder-small"></div>
+                <img src="photos/Us-As-Kids-1.jpeg" alt="You as a kid" class="photo-small">
+                <img src="photos/Us-As-Kids-2.jpeg" alt="Me as a kid" class="photo-small">
             </div>
             <button class="btn" onclick="showSection('section3')">Continue ➜</button>
         </div>
@@ -458,28 +867,25 @@
     <!-- Section 3: Things I Love About You -->
     <div class="section" id="section3">
         <div class="card">
-            <h2>Things I Love About You, Shreeja 💖</h2>
+            <h2>Things I Love About You, Bujjamma 💖</h2>
             <div class="reason-list">
                 <div class="reason-item">
-                    <strong>Your smile</strong> - It lights up my entire world
+                    <strong>Your eyes</strong> - They're absolutely mesmerizing
+                </div>
+                <div class="reason-item">
+                    <strong>Your cuteness</strong> - Everything you do is adorable
+                </div>
+                <div class="reason-item">
+                    <strong>The way you care about me</strong> - It means the world to me
                 </div>
                 <div class="reason-item">
                     <strong>Your laugh</strong> - It's the most beautiful sound I know
                 </div>
                 <div class="reason-item">
-                    <strong>Your kindness</strong> - You have the biggest heart
+                    <strong>Your stubbornness</strong> - It shows your strength
                 </div>
                 <div class="reason-item">
-                    <strong>Your intelligence</strong> - You inspire me to be better
-                </div>
-                <div class="reason-item">
-                    <strong>How you love chocolate</strong> - Your excitement is adorable 🍫
-                </div>
-                <div class="reason-item">
-                    <strong>Our late night chip runs</strong> - The best adventures 🍟
-                </div>
-                <div class="reason-item">
-                    <strong>Everything that makes you YOU</strong> - Perfectly imperfect
+                    <strong>Your beauty</strong> - You take my breath away every day
                 </div>
             </div>
             <button class="btn" onclick="showSection('section4')">There's More ➜</button>
@@ -500,14 +906,17 @@
                 <div class="chocolate"></div>
                 <div class="chocolate"></div>
                 <div class="chocolate"></div>
+                <div class="chocolate"></div>
+                <div class="chocolate"></div>
+                <div class="chocolate"></div>
             </div>
             <div class="chips-bag">🍟</div>
-            <div class="chips-bag">🥔</div>
-            <div class="chips-bag">🍿</div>
-            <p>I love how your eyes light up when you see chocolate...</p>
-            <p>And how we can demolish a bag of chips together in minutes!</p>
+            <div class="chips-bag">🍜</div>
+            <div class="chips-bag">🍪</div>
+            <p>I love the way you light up with joy...</p>
+            <p>Your happiness over the little things makes every moment special</p>
             <!-- PHOTO PLACEHOLDER 2: Add a photo of her with chocolate or snacks -->
-            <div class="photo-placeholder">Photo with chocolate/chips</div>
+            <img src="photos/Close-Together-Silly.jpeg" alt="Being silly together" class="photo-aspect-ratio">
             <button class="btn" onclick="showSection('section5')">Keep Going ➜</button>
         </div>
     </div>
@@ -517,13 +926,86 @@
         <div class="card">
             <h2>Our Adventures Together 🎮</h2>
             <h3>Ultimate Tic-Tac-Toe Days</h3>
-            <!-- PHOTO PLACEHOLDER 3: Add photos from UTTT days -->
-            <div class="photo-banner">Photos from our UTTT battles</div>
+            <div class="uttt-game">
+                <div class="mini-grid">
+                    <div class="mini-cell">X</div><div class="mini-cell"></div><div class="mini-cell">O</div>
+                    <div class="mini-cell"></div><div class="mini-cell">X</div><div class="mini-cell"></div>
+                    <div class="mini-cell">O</div><div class="mini-cell"></div><div class="mini-cell">X</div>
+                </div>
+                <div class="mini-grid">
+                    <div class="mini-cell">O</div><div class="mini-cell">X</div><div class="mini-cell"></div>
+                    <div class="mini-cell">X</div><div class="mini-cell">O</div><div class="mini-cell">X</div>
+                    <div class="mini-cell"></div><div class="mini-cell">O</div><div class="mini-cell"></div>
+                </div>
+                <div class="mini-grid">
+                    <div class="mini-cell"></div><div class="mini-cell">O</div><div class="mini-cell">X</div>
+                    <div class="mini-cell">X</div><div class="mini-cell"></div><div class="mini-cell">O</div>
+                    <div class="mini-cell">O</div><div class="mini-cell">X</div><div class="mini-cell"></div>
+                </div>
+                <div class="mini-grid">
+                    <div class="mini-cell">X</div><div class="mini-cell">X</div><div class="mini-cell">O</div>
+                    <div class="mini-cell">O</div><div class="mini-cell">O</div><div class="mini-cell">X</div>
+                    <div class="mini-cell">X</div><div class="mini-cell">O</div><div class="mini-cell">O</div>
+                </div>
+                <div class="mini-grid">
+                    <div class="mini-cell"></div><div class="mini-cell">X</div><div class="mini-cell"></div>
+                    <div class="mini-cell">O</div><div class="mini-cell">X</div><div class="mini-cell">O</div>
+                    <div class="mini-cell"></div><div class="mini-cell">O</div><div class="mini-cell">X</div>
+                </div>
+                <div class="mini-grid">
+                    <div class="mini-cell">O</div><div class="mini-cell"></div><div class="mini-cell">X</div>
+                    <div class="mini-cell">X</div><div class="mini-cell">O</div><div class="mini-cell"></div>
+                    <div class="mini-cell"></div><div class="mini-cell">X</div><div class="mini-cell">O</div>
+                </div>
+                <div class="mini-grid">
+                    <div class="mini-cell">X</div><div class="mini-cell">O</div><div class="mini-cell">X</div>
+                    <div class="mini-cell"></div><div class="mini-cell">X</div><div class="mini-cell">O</div>
+                    <div class="mini-cell">O</div><div class="mini-cell"></div><div class="mini-cell">X</div>
+                </div>
+                <div class="mini-grid">
+                    <div class="mini-cell">O</div><div class="mini-cell">X</div><div class="mini-cell">O</div>
+                    <div class="mini-cell">X</div><div class="mini-cell"></div><div class="mini-cell">X</div>
+                    <div class="mini-cell">O</div><div class="mini-cell">O</div><div class="mini-cell"></div>
+                </div>
+                <div class="mini-grid">
+                    <div class="mini-cell"></div><div class="mini-cell">O</div><div class="mini-cell"></div>
+                    <div class="mini-cell">X</div><div class="mini-cell">X</div><div class="mini-cell">O</div>
+                    <div class="mini-cell">O</div><div class="mini-cell">X</div><div class="mini-cell">X</div>
+                </div>
+            </div>
             <p>Remember all those intense matches? You always kept me on my toes!</p>
             
             <h3 style="margin-top: 40px;">Instagram Quiz Nights 📱</h3>
-            <!-- PHOTO PLACEHOLDER 4: Add photos from quiz times -->
-            <div class="photo-banner">Our quiz screenshots</div>
+            <div class="quiz-card">
+                <h3 style="color: white; margin: 0;">Which one of us... 💭</h3>
+                <p style="font-size: 0.9em; opacity: 0.9; margin-top: 10px;">Click to reveal answers!</p>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="flipQuiz(this)">
+                        <div class="quiz-flip-container">
+                            <div class="quiz-front">👤 Is more likely to stay up late?</div>
+                            <div class="quiz-back">Answer: Me! 🌙</div>
+                        </div>
+                    </div>
+                    <div class="quiz-option" onclick="flipQuiz(this)">
+                        <div class="quiz-flip-container">
+                            <div class="quiz-front">🛍️ Likes shopping more?</div>
+                            <div class="quiz-back">Answer: You! 👜</div>
+                        </div>
+                    </div>
+                    <div class="quiz-option" onclick="flipQuiz(this)">
+                        <div class="quiz-flip-container">
+                            <div class="quiz-front">😂 Laughs at their own jokes?</div>
+                            <div class="quiz-back">Answer: Me! 😂</div>
+                        </div>
+                    </div>
+                    <div class="quiz-option" onclick="flipQuiz(this)">
+                        <div class="quiz-flip-container">
+                            <div class="quiz-front">💕 Falls asleep first?</div>
+                            <div class="quiz-back">Answer: You! 😴</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <p>From UTTT to Instagram quizzes - we always find ways to have fun together</p>
             <button class="btn" onclick="showSection('section6')">Continue ➜</button>
         </div>
@@ -533,16 +1015,30 @@
     <div class="section" id="section6">
         <div class="card">
             <h2>Building Our World 🎮⛏️</h2>
-            <p style="font-size: 5em; margin: 20px 0;">🟫🟩🟦</p>
+            <div class="minecraft-scene">
+                <div class="mc-block mc-grass"></div>
+                <div class="mc-block mc-grass"></div>
+                <div class="mc-block mc-grass"></div>
+                <div class="mc-block mc-grass"></div>
+                <div class="mc-block mc-grass"></div>
+                <div class="mc-block mc-grass"></div>
+                <div class="mc-block mc-dirt"></div>
+                <div class="mc-block mc-stone"></div>
+                <div class="mc-block mc-stone"></div>
+                <div class="mc-block mc-dirt"></div>
+                <div class="mc-block mc-wood"></div>
+                <div class="mc-block mc-wood"></div>
+                <div class="mc-block mc-stone"></div>
+                <div class="mc-block mc-diamond"></div>
+                <div class="mc-block mc-stone"></div>
+                <div class="mc-block mc-wood"></div>
+                <div class="mc-block mc-wood"></div>
+                <div class="mc-block mc-dirt"></div>
+            </div>
             <p>And now we're building worlds together in Minecraft...</p>
             <p>Just like we're building something special in real life</p>
-            <!-- PHOTO PLACEHOLDER 5: Add Minecraft screenshots or photos -->
-            <div class="photo-placeholder">Minecraft memories</div>
-            <div style="margin: 20px 0;">
-                <div class="photo-placeholder-small"></div>
-                <div class="photo-placeholder-small"></div>
-                <div class="photo-placeholder-small"></div>
-            </div>
+            <!-- PHOTO PLACEHOLDER 5: Add a photo of you two -->
+            <img src="photos/Sitting-Closer-Holding-Hands.jpg" alt="Building together, holding hands" class="photo-aspect-ratio">
             <button class="btn" onclick="showSection('section7')">Almost There ➜</button>
         </div>
     </div>
@@ -551,11 +1047,12 @@
     <div class="section" id="section7">
         <div class="card">
             <h2>Every Moment With You 🌟</h2>
-            <!-- PHOTO PLACEHOLDER 6-9: Add a collection of your favorite photos -->
+            <!-- PHOTO PLACEHOLDER 6-10: Add a collection of your favorite photos -->
             <div class="photo-grid">
-                <div class="photo-placeholder">Photo 1</div>
-                <div class="photo-placeholder">Photo 2</div>
-                <div class="photo-placeholder">Photo 3</div>
+                <img src="photos/Photo-Together-2.jpeg" alt="Together" class="photo" style="margin: 0;">
+                <img src="photos/Sitting-Close.jpg" alt="Sitting close" class="photo" style="margin: 0;">
+                <img src="photos/Close-Together-In-Car.jpeg" alt="In the car" class="photo" style="margin: 0;">
+                <img src="photos/Hugging-In-Car.jpg" alt="Hugging" class="photo" style="margin: 0;">
             </div>
             <p>Every memory we've made is treasured in my heart</p>
             <p>Every laugh, every adventure, every quiet moment together...</p>
@@ -578,11 +1075,14 @@
                 <div class="chocolate"></div>
                 <div class="chocolate"></div>
                 <div class="chocolate"></div>
+                <div class="chocolate"></div>
+                <div class="chocolate"></div>
+                <div class="chocolate"></div>
             </div>
             <p>...any chocolate, any cake, any dessert in the world!</p>
             <p>You're the sweetest thing in my life, Bujji</p>
             <!-- PHOTO PLACEHOLDER 10: Add a sweet photo together -->
-            <div class="photo-placeholder">A sweet moment together</div>
+            <img src="photos/Kissing-Her-Cheek.jpg" alt="Kissing your cheek" class="photo-aspect-ratio">
             <button class="btn" onclick="showSection('section9')">The Big Question ➜</button>
         </div>
     </div>
@@ -596,7 +1096,8 @@
             </div>
             <div class="heart">❤️</div>
             <!-- PHOTO PLACEHOLDER 11: Add your most special photo together -->
-            <div class="photo-placeholder">Our most special photo</div>
+            <img src="photos/Close-Together-With-Love.jpeg" alt="Our special moment" class="photo-aspect-ratio" id="questionPhoto" style="display: block;">
+            <img src="photos/Us-Kissing.jpg" alt="Our kiss" class="photo-aspect-ratio" id="kissPhoto" style="display: none !important;">
             <div class="response-buttons">
                 <button class="btn" id="yesBtn" onclick="handleYes()">YES! 💕</button>
                 <button class="btn" id="noBtn" onclick="handleNo()">No</button>
@@ -608,14 +1109,18 @@
         </div>
     </div>
 
-    <div class="scroll-hint" id="scrollHint">Scroll down or click to continue ↓</div>
+    <div class="scroll-hint" id="scrollHint">↓</div>
+
+    </div><!-- End contentWrapper -->
 
     <script>
-        // Create floating hearts with red and navy theme
+        // Create floating hearts and photo placeholders with red and navy theme
         function createFloatingHearts() {
             const container = document.getElementById('floatingHearts');
             const hearts = ['❤️', '💕', '💖', '💗', '💓', '💙', '🖤'];
-            for (let i = 0; i < 20; i++) {
+            
+            // Add hearts
+            for (let i = 0; i < 15; i++) {
                 const heart = document.createElement('div');
                 heart.className = 'floating-heart';
                 heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
@@ -624,51 +1129,149 @@
                 heart.style.fontSize = (Math.random() * 1.5 + 1) + 'em';
                 container.appendChild(heart);
             }
+            
+            // Add floating photo thumbnails
+            const photos = [
+                'photos/Close-Together-Cute.jpeg',
+                'photos/Photo-Together-3.jpeg',
+                'photos/Sitting-Closer.jpg',
+                'photos/Close-Together-With-Love.jpeg',
+                'photos/Sitting-Close.jpg',
+                'photos/Photo-Together-1.jpeg'
+            ];
+            
+            for (let i = 0; i < 8; i++) {
+                const photo = document.createElement('img');
+                photo.className = 'floating-photo';
+                photo.src = photos[Math.floor(Math.random() * photos.length)];
+                photo.alt = 'Us';
+                photo.style.left = Math.random() * 100 + '%';
+                photo.style.animationDelay = Math.random() * 10 + 's';
+                photo.style.animationDuration = (Math.random() * 5 + 8) + 's';
+                container.appendChild(photo);
+            }
         }
 
         createFloatingHearts();
 
+        // No need to control wrapper height anymore since sections use display: none
+
+        // Reset page function
+        function resetPage() {
+            // Reset all sections
+            document.querySelectorAll('.section').forEach((section, index) => {
+                section.classList.remove('visible');
+                if (index === 0) {
+                    section.classList.add('visible');
+                }
+            });
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // Reset button states
+            noClickCount = 0;
+            buttonFleeing = false;
+            isTimerActive = false;
+            wasHovering = false;
+            document.removeEventListener('mousemove', trackMouse);
+            clearInterval(buttonMoveInterval);
+            if (mobileAutoMoveInterval) clearInterval(mobileAutoMoveInterval);
+            if (hoverTimeout) clearTimeout(hoverTimeout);
+            
+            const noBtn = document.getElementById('noBtn');
+            const yesBtn = document.getElementById('yesBtn');
+            const celebration = document.getElementById('celebration');
+            const message = document.getElementById('responseMessage');
+            const resetBtn = document.getElementById('resetBtn');
+            
+            noBtn.innerHTML = 'No';
+            noBtn.style = '';
+            noBtn.classList.remove('fleeing');
+            noBtn.style.display = '';
+            
+            yesBtn.style.transform = '';
+            
+            celebration.classList.remove('show');
+            message.innerHTML = '';
+            
+            resetBtn.classList.remove('visible');
+            
+            // Reset photos
+            const questionPhoto = document.getElementById('questionPhoto');
+            const kissPhoto = document.getElementById('kissPhoto');
+            if (questionPhoto) questionPhoto.style.display = 'block';
+            if (kissPhoto) kissPhoto.style.display = 'none';
+            
+            // Reset quiz flips
+            document.querySelectorAll('.quiz-option').forEach(option => {
+                option.classList.remove('flipped');
+            });
+            
+            // Show scroll hint
+            document.getElementById('scrollHint').style.display = 'block';
+        }
+
+        // Keyboard shortcut for reset (press 'R')
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'r' || e.key === 'R') {
+                resetPage();
+            }
+        });
+
+        // Instagram quiz flip function
+        function flipQuiz(element) {
+            element.classList.toggle('flipped');
+        }
+
         // Show section function
         function showSection(sectionId) {
             const section = document.getElementById(sectionId);
-            section.scrollIntoView({ behavior: 'smooth' });
+            section.classList.add('visible');
             setTimeout(() => {
-                section.classList.add('visible');
-            }, 300);
+                section.scrollIntoView({ behavior: 'smooth' });
+            }, 100);
             updateScrollHint(sectionId);
         }
 
         // Update scroll hint visibility
         function updateScrollHint(currentSection) {
             const scrollHint = document.getElementById('scrollHint');
+            const resetBtn = document.getElementById('resetBtn');
             if (currentSection === 'section9') {
                 scrollHint.style.display = 'none';
+                resetBtn.classList.add('visible');
             }
         }
-
-        // Reveal sections on scroll
-        window.addEventListener('scroll', () => {
-            const sections = document.querySelectorAll('.section');
-            sections.forEach(section => {
-                const rect = section.getBoundingClientRect();
-                if (rect.top < window.innerHeight * 0.75) {
-                    section.classList.add('visible');
-                }
-            });
-        });
 
         // Handle Yes response
         function handleYes() {
             const celebration = document.getElementById('celebration');
             const message = document.getElementById('responseMessage');
             const noBtn = document.getElementById('noBtn');
+            const questionPhoto = document.getElementById('questionPhoto');
+            const kissPhoto = document.getElementById('kissPhoto');
             
             celebration.classList.add('show');
             message.innerHTML = '<h2 style="color: rgb(255, 0, 0); margin-top: 30px;">You just made me the happiest person! 💕</h2><p>I love you so much, Bujji! Happy Valentine\'s Day! 💖🍫</p>';
             noBtn.style.display = 'none';
             
+            // Switch to kissing photo
+            questionPhoto.style.display = 'none';
+            kissPhoto.style.display = 'block';
+            
             // Remove mouse tracking
+            isTimerActive = false;
+            wasHovering = false;
             document.removeEventListener('mousemove', trackMouse);
+            clearInterval(buttonMoveInterval);
+            if (mobileAutoMoveInterval) clearInterval(mobileAutoMoveInterval);
+            if (hoverTimeout) clearTimeout(hoverTimeout);
+            
+            // Scroll down to show the message
+            setTimeout(() => {
+                message.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 500);
             
             // Create confetti effect
             for (let i = 0; i < 100; i++) {
@@ -676,46 +1279,159 @@
             }
         }
 
-        // Mouse tracking for No button
+        // Mouse tracking for No button with glide mechanic
         let noClickCount = 0;
         let buttonFleeing = false;
         const noBtn = document.getElementById('noBtn');
+        let buttonX = 0;
+        let buttonY = 0;
+        let targetX = 0;
+        let targetY = 0;
+        let buttonMoveInterval = null;
+        let hoverTimeout = null;
+        let mobileAutoMoveInterval = null;
+        let isTimerActive = false; // Track if flee timer is already running
+        let wasHovering = false; // Track if we were hovering in the previous frame
+        
+        // More robust mobile detection
+        function isMobileDevice() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 
+                   (navigator.maxTouchPoints > 0 && window.innerWidth < 768);
+        }
+        
+        const isMobile = isMobileDevice();
+        
+        function findSafeSpot(mouseX, mouseY, minDistance) {
+            const margin = 150;
+            let attempts = 0;
+            let newX, newY, distance;
+            
+            do {
+                newX = margin + Math.random() * (window.innerWidth - 2 * margin);
+                newY = margin + Math.random() * (window.innerHeight - 2 * margin);
+                distance = Math.sqrt(Math.pow(newX - mouseX, 2) + Math.pow(newY - mouseY, 2));
+                attempts++;
+            } while (distance < minDistance && attempts < 20);
+            
+            return { x: newX, y: newY };
+        }
         
         function trackMouse(e) {
             if (!buttonFleeing || !noBtn) return;
             
-            const btn = noBtn;
-            const btnRect = btn.getBoundingClientRect();
-            const btnCenterX = btnRect.left + btnRect.width / 2;
-            const btnCenterY = btnRect.top + btnRect.height / 2;
-            
             const mouseX = e.clientX;
             const mouseY = e.clientY;
+            
+            const btnRect = noBtn.getBoundingClientRect();
+            const btnCenterX = btnRect.left + btnRect.width / 2;
+            const btnCenterY = btnRect.top + btnRect.height / 2;
             
             const distance = Math.sqrt(
                 Math.pow(mouseX - btnCenterX, 2) + 
                 Math.pow(mouseY - btnCenterY, 2)
             );
             
-            const fleeDistance = 150; // Distance at which button starts fleeing
+            let fleeDistance = 250;
+            if (noClickCount >= 2) fleeDistance = 300;
+            if (noClickCount >= 3) fleeDistance = 350;
+            if (noClickCount >= 4) fleeDistance = 400;
             
+            // Check if mouse is actually hovering over the button (touching it)
+            const isHovering = mouseX >= btnRect.left && mouseX <= btnRect.right &&
+                              mouseY >= btnRect.top && mouseY <= btnRect.bottom;
+            
+            // If mouse gets too close, start or update timer
             if (distance < fleeDistance) {
-                // Calculate flee direction (away from mouse)
-                const angle = Math.atan2(btnCenterY - mouseY, btnCenterX - mouseX);
-                const fleeSpeed = (fleeDistance - distance) / 3;
+                // Base wait time for current stage
+                let waitTime = 600;
+                if (noClickCount >= 2) waitTime = 450;
+                if (noClickCount >= 3) waitTime = 300;
+                if (noClickCount >= 4) waitTime = 250;
                 
-                let newX = btnCenterX + Math.cos(angle) * fleeSpeed;
-                let newY = btnCenterY + Math.sin(angle) * fleeSpeed;
+                // Add bonus time if hovering
+                if (isHovering) {
+                    waitTime += 250;
+                }
                 
-                // Keep button within viewport
-                const margin = 100;
-                newX = Math.max(margin, Math.min(window.innerWidth - margin, newX));
-                newY = Math.max(margin, Math.min(window.innerHeight - margin, newY));
-                
-                btn.style.left = newX + 'px';
-                btn.style.top = newY + 'px';
-                btn.style.transform = 'translate(-50%, -50%)';
+                // Start timer if not active, OR reset it if hover state changed
+                if (!isTimerActive || (isHovering !== wasHovering)) {
+                    // Clear existing timeout if resetting
+                    if (hoverTimeout) {
+                        clearTimeout(hoverTimeout);
+                    }
+                    
+                    isTimerActive = true;
+                    wasHovering = isHovering;
+                    
+                    hoverTimeout = setTimeout(() => {
+                        // Find a safe spot that's beyond the flee distance from current mouse position
+                        const safeSpot = findSafeSpot(mouseX, mouseY, fleeDistance + 100);
+                        targetX = safeSpot.x;
+                        targetY = safeSpot.y;
+                        
+                        // Update transition speed based on stage
+                        let speed = 0.5;
+                        if (noClickCount >= 2) speed = 0.4;
+                        if (noClickCount >= 3) speed = 0.3;
+                        if (noClickCount >= 4) speed = 0.25;
+                        
+                        noBtn.style.transition = `all ${speed}s cubic-bezier(0.34, 1.56, 0.64, 1)`;
+                        noBtn.style.left = targetX + 'px';
+                        noBtn.style.top = targetY + 'px';
+                        noBtn.style.transform = 'translate(-50%, -50%) rotate(' + (Math.random() * 360) + 'deg)';
+                        
+                        // Reset timer flags after move
+                        isTimerActive = false;
+                        wasHovering = false;
+                    }, waitTime);
+                }
+            } else {
+                // Mouse moved away from button - reset timer
+                if (isTimerActive) {
+                    clearTimeout(hoverTimeout);
+                    hoverTimeout = null;
+                    isTimerActive = false;
+                    wasHovering = false;
+                }
             }
+        }
+
+        // Mobile auto-move function
+        function startMobileAutoMove() {
+            if (!isMobile || !buttonFleeing) return;
+            
+            // Clear any existing interval
+            if (mobileAutoMoveInterval) {
+                clearInterval(mobileAutoMoveInterval);
+            }
+            
+            // Set interval based on stage (much easier timings for mobile)
+            let moveInterval = 2000;  // 2 seconds for stage 1
+            if (noClickCount >= 2) moveInterval = 1500;  // 1.5 seconds
+            if (noClickCount >= 3) moveInterval = 1000;  // 1 second
+            if (noClickCount >= 4) moveInterval = 700;   // 0.7 seconds
+            
+            mobileAutoMoveInterval = setInterval(() => {
+                if (!buttonFleeing) {
+                    clearInterval(mobileAutoMoveInterval);
+                    return;
+                }
+                
+                // Move to random safe spot
+                const centerX = window.innerWidth / 2;
+                const centerY = window.innerHeight / 2;
+                const safeSpot = findSafeSpot(centerX, centerY, 200);
+                
+                let speed = 0.5;
+                if (noClickCount >= 2) speed = 0.4;
+                if (noClickCount >= 3) speed = 0.3;
+                if (noClickCount >= 4) speed = 0.25;
+                
+                noBtn.style.transition = `all ${speed}s cubic-bezier(0.34, 1.56, 0.64, 1)`;
+                noBtn.style.left = safeSpot.x + 'px';
+                noBtn.style.top = safeSpot.y + 'px';
+                noBtn.style.transform = 'translate(-50%, -50%) rotate(' + (Math.random() * 360) + 'deg)';
+            }, moveInterval);
         }
 
         // Handle No response
@@ -724,29 +1440,41 @@
             
             if (noClickCount === 1) {
                 noBtn.innerHTML = 'Are you sure? 🥺';
+                noBtn.classList.add('fleeing');
                 buttonFleeing = true;
-                document.addEventListener('mousemove', trackMouse);
                 // Set initial position
                 const rect = noBtn.getBoundingClientRect();
-                noBtn.style.left = (rect.left + rect.width / 2) + 'px';
-                noBtn.style.top = (rect.top + rect.height / 2) + 'px';
+                buttonX = rect.left + rect.width / 2;
+                buttonY = rect.top + rect.height / 2;
+                noBtn.style.left = buttonX + 'px';
+                noBtn.style.top = buttonY + 'px';
+                noBtn.style.transform = 'translate(-50%, -50%)';
+                
+                // Start appropriate tracking based on device
+                if (isMobile) {
+                    startMobileAutoMove();
+                } else {
+                    document.addEventListener('mousemove', trackMouse);
+                }
             } else if (noClickCount === 2) {
                 noBtn.innerHTML = 'Really?? 🥺💔';
-                // Make it faster
-                noBtn.style.transition = 'all 0.15s ease';
+                if (isMobile) startMobileAutoMove();
             } else if (noClickCount === 3) {
                 noBtn.innerHTML = 'Please, Nana? 💔';
-                // Even faster
-                noBtn.style.transition = 'all 0.1s ease';
                 document.getElementById('yesBtn').style.transform = 'scale(1.2)';
+                if (isMobile) startMobileAutoMove();
             } else if (noClickCount === 4) {
                 noBtn.innerHTML = 'Bujji... 🥹';
-                // Super fast now
-                noBtn.style.transition = 'all 0.05s ease';
+                if (isMobile) startMobileAutoMove();
             } else {
                 noBtn.style.display = 'none';
+                isTimerActive = false;
+                wasHovering = false;
                 document.removeEventListener('mousemove', trackMouse);
-                document.getElementById('responseMessage').innerHTML = '<p style="color: rgb(255, 0, 0); font-size: 1.2em;">The "No" button has given up trying to escape... There\'s only one choice left, Shreeja! 😊💕</p>';
+                clearInterval(buttonMoveInterval);
+                if (mobileAutoMoveInterval) clearInterval(mobileAutoMoveInterval);
+                if (hoverTimeout) clearTimeout(hoverTimeout);
+                document.getElementById('responseMessage').innerHTML = '<p style="color: rgb(255, 0, 0); font-size: 1.2em;">The "No" button has given up trying to escape... There\'s only one choice left, Kanna! 😊💕</p>';
                 document.getElementById('yesBtn').style.transform = 'scale(1.3)';
             }
         }
